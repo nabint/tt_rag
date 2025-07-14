@@ -1,12 +1,19 @@
-from typing import List, Literal, TypedDict
+from typing import List, TypedDict
 from typing_extensions import Annotated
 from langchain_core.documents import Document
 
 
-class Search(TypedDict):
-    """Search query."""
+class SubQuery(TypedDict):
+    intent: Annotated[
+        str, "What this subquery is about, e.g. 'leave policy', 'evaluation process'"
+    ]
+    query: Annotated[str, "The sub-question related to that intent"]
 
-    query: Annotated[str, ..., "Search query to run."]
+
+class Search(TypedDict):
+    queries: Annotated[
+        List[SubQuery], "List of subqueries extracted from the input question"
+    ]
 
 
 class State(TypedDict):
