@@ -2,7 +2,7 @@ from rag_model.faiss_index_utils import get_index
 from rag_model.schema import State, Search
 from rag_model.config import llm, prompt, embedding_model
 
-vector_store = get_index("teslatech_policy_index", embedding_model)
+vector_store = get_index("user_reviews_index", embedding_model)
 
 def analyze_query(state: State):
     """Analyze the user's question and determine search parameters."""
