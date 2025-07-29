@@ -1,8 +1,10 @@
 from rag_model.faiss_index_utils import get_index
 from rag_model.schema import State, Search
 from rag_model.config import llm, prompt, embedding_model
+from langchain_core.messages import HumanMessage, SystemMessage
 
 vector_store = get_index("user_reviews_index", embedding_model)
+
 
 def analyze_query(state: State):
     """Analyze the user's question and determine search parameters."""
@@ -41,7 +43,23 @@ def generate(state: State):
     print("GENERATING RESULT...")
 
     docs_content = "\n\n".join(doc.page_content for doc in state["context"])
-    messages = prompt.invoke({"question": state["question"], "context": docs_content})
+
+    # messages = prompt.invoke({"question": state["question"], "context": docs_content})
+
+    messages = [
+        SystemMessage(
+            content="""
+                You are a helpful and polite customer care assistant.
+                Always address the user warmly and professionally,
+                provide clear and concise answers, and if necessary,
+                reassure them or guide them to the next step.
+                Also don't make the answer too long.
+                If you don't know the answer, politely inform the user that you are unable to assist."""
+        ),
+        HumanMessage(
+            content=f"Question: {state['question']}\n\nContext:\n{docs_content}"
+        ),
+    ]
 
     response = llm.invoke(messages)
 
