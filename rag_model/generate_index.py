@@ -4,10 +4,10 @@ from rag_model.config import embedding_model
 
 
 def main():
-    docs = load_pdfs_from_directory("./data/user_reviews/")
+    docs = load_pdfs_from_directory("./data/change_logs/")
     splitted_documets = get_fixed_sized_chunks(docs)
 
-    create_index(splitted_documets, "user_reviews_index", embedding_model)
+    create_index(splitted_documets, "change_logs_index", embedding_model)
 
 
 if __name__ == "__main__":

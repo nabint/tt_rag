@@ -1,4 +1,4 @@
-from typing import List, TypedDict
+from typing import List, Optional, TypedDict
 from typing_extensions import Annotated
 from langchain_core.documents import Document
 
@@ -16,8 +16,10 @@ class Search(TypedDict):
     ]
 
 
-class State(TypedDict):
+class State(TypedDict, total=True):
     question: str
     query: Search
     context: List[Document]
     answer: str
+    iteration: int = 0
+    next_step: Optional[str] = None
